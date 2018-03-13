@@ -1,6 +1,7 @@
 import pandas as pd
 import re
 import nltk
+import string
 #from nltk.corpus import stopwords
 
 trainDF,testDF = [],[]
@@ -37,9 +38,9 @@ def preProcess(text):
     tokens = [stemmer.stem(t) for t in tokens] #stemmer
 
     unigrams = list(nltk.ngrams(tokens,1))
-    bigrams = list(nltk.ngrams(tokens,2))
+    #bigrams = list(nltk.ngrams(tokens,2))
     #trigrams =  list(nltk.ngrams(tokens,3))
-    tokens = unigrams + bigrams #+ trigrams
+    tokens = unigrams #+ bigrams #+ trigrams
     
     return tokens
 
@@ -67,9 +68,10 @@ def prepareTrainTestSet(trainCsvPath,testCsvPath,vectorizationMethod,seperateLab
 
 
 
-
-preProcessedTrainDF= prepareTrainTestSet('train.csv','test.csv','bow',seperateLabelInfo=1,sampleNum=100)
+path = '/Users/elenapedrini/Desktop/GitHub/QMULHub/'
+preProcessedTrainDF= prepareTrainTestSet(str(path)+'train.csv',str(path)+'test.csv','bow',seperateLabelInfo=1,sampleNum=100)
 
 preProcessedTrainDF.iloc[1]#,train.columns.get_loc('comment_text')]
 #train.iloc[1]#.loc['comment_text']
 #preProcess(train.iloc[1,train.columns.get_loc('comment_text')])
+
