@@ -1,10 +1,28 @@
+
+# coding: utf-8
+
+# # READ DATA####
+
+# Load the CSV file in a dataframe object.
+
+# In[4]:
+
+
 import pandas as pd
 import re
 import nltk
 import string
 #from nltk.corpus import stopwords
 
+
+# In[5]:
+
+
 trainDF,testDF = [],[]
+
+
+# In[6]:
+
 
 # Input : trainCsvPath, testCsvPath
 # Output: (trainDF,testDF)
@@ -14,11 +32,14 @@ def loadData(trainCsvPath,testCsvPath):
     return(trainDF,testDF)
 
 
+# In[7]:
+
 
 # TEXT PREPROCESSING AND FEATURE VECTORIZATION
 
 # Input: a string of one review
 # Output: tokens of n-grams
+
 def preProcess(text):
     # Should return a list of tokens
     stopwords = nltk.corpus.stopwords.words('english')
@@ -45,10 +66,12 @@ def preProcess(text):
     return tokens
 
 
+# In[8]:
+
 
 # Input : trainCsvPath, testCsvPath and the name of the Vectorization Method such as ("bow","glove","word2vec"), seperate Label info if 1, num of Samples to process
 # Output: the train(with label) and test dataset in internal representation
-def prepareTrainTestSet(trainCsvPath,testCsvPath,vectorizationMethod,seperateLabelInfo=0,sampleNum=0):
+def prepareTrainTestSet(trainCsvPath,testCsvPath,vectorizationMethod,seperateLabelInfo=0,sampleNum=0,tokenize=1):
     #Load Data
     global trainDF,testDF
     trainDF,testDF = loadData(trainCsvPath,testCsvPath)
@@ -63,13 +86,21 @@ def prepareTrainTestSet(trainCsvPath,testCsvPath,vectorizationMethod,seperateLab
         for i in range(0,numElements):
             df.iloc[i,df.columns.get_loc('comment_text')]=preProcess(df.iloc[i,df.columns.get_loc('comment_text')])
         return df
-    preProcessedTrainDF=iterateDF(trainDF)
+    if(tokenize==1):
+        preProcessedTrainDF=iterateDF(trainDF)
+    else:
+        preProcessedTrainDF=trainDF
     return preProcessedTrainDF
 
 
+# In[10]:
 
-path = '/Users/elenapedrini/Desktop/GitHub/QMULHub/'
-preProcessedTrainDF= prepareTrainTestSet(str(path)+'train.csv',str(path)+'test.csv','bow',seperateLabelInfo=1,sampleNum=100)
+
+preProcessedTrainDF= prepareTrainTestSet('train.csv','test.csv','bow',seperateLabelInfo=1,sampleNum=100)
+
+
+# In[11]:
+
 
 preProcessedTrainDF.iloc[1]#,train.columns.get_loc('comment_text')]
 #train.iloc[1]#.loc['comment_text']
