@@ -77,8 +77,8 @@ def prepareTrainTestSet(trainCsvPath,testCsvPath,vectorizationMethod,seperateLab
     trainDF,testDF = loadData(trainCsvPath,testCsvPath)
     
     if (not sampleNum == 0):
-        trainDF=trainDF[1:sampleNum]
-        testDF=testDF[1:sampleNum]
+        trainDF=trainDF[0:sampleNum]
+        testDF=testDF[0:sampleNum]
     
     #preProcess the train Dataset
     def iterateDF(df):
@@ -96,13 +96,13 @@ def prepareTrainTestSet(trainCsvPath,testCsvPath,vectorizationMethod,seperateLab
 # In[10]:
 
 
-preProcessedTrainDF= prepareTrainTestSet('train.csv','test.csv','bow',seperateLabelInfo=1,sampleNum=100)
+#preProcessedTrainDF= prepareTrainTestSet('train.csv','test.csv','bow',seperateLabelInfo=1,sampleNum=100)
 
 
 # In[11]:
 
 
-preProcessedTrainDF.iloc[1]#,train.columns.get_loc('comment_text')]
+#preProcessedTrainDF.iloc[1]#,train.columns.get_loc('comment_text')]
 #train.iloc[1]#.loc['comment_text']
 #preProcess(train.iloc[1,train.columns.get_loc('comment_text')])
 
