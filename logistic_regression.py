@@ -352,6 +352,10 @@ accG = skm.accuracy_score(y_test_6, y_predG, normalize=True, sample_weight=None)
 print("Accuracy: "+str(round(accG,2)*100)+'%')
 
 
+#POSSIBLE IMPROVEMENTS
+#We can test different values of threshold (probability of belonging to the target class
+#compared to the other class) to select when an observation should be labelled as 1 or 0
+#(default threshold is 0.5). 
 
 
 
