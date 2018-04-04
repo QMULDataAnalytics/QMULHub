@@ -40,7 +40,7 @@ with open("/Users/elenapedrini/Desktop/GitHub/sent2vec.txt", "rb") as fp:   # Un
    sent2vec = pickle.load(fp)
    
    
-   
+
 rows = []
 for i in range(len(sent2vec)):
     vect_components = []
@@ -103,6 +103,14 @@ X_train_1, X_test_1, y_train_1, y_test_1 = train_test_split(X, y_1, test_size = 
 LogRegA = LogisticRegression() 
 #class_weight parameter set as default: all classes have weight 1
 #multi_class parameter set as default ('ovr'): binary problem set for each label 
+
+print(LogRegA) 
+#characteritics of the model: 
+#penalty: L2 (norm used in the regularization), also known as least squares error
+#solver: liblinear (optimization algorithm)
+
+
+
 LogRegA.fit(X_train_1, y_train_1)
 ​
 y_predA = LogRegA.predict(X_test_1)
@@ -114,7 +122,18 @@ print(confusion_matrixA)
 print("Number of samples in the test set: "+str(len(y_test_1)))
 print("Number of toxic comments (target = 1) in the test set: "+str(sum(y_test_1))+" ("+str(round(sum(y_test_1)/len(y_test_1)*100,2))+"% of the total)")
 
-#All toxic comments are predicted as non-toxic. The model is not working as expected but the accuracy is quite high.
+'''
+All toxic comments are predicted as non-toxic. The model is not working as expected but the accuracy is quite high.
+This is a problem that can occur when we deal with very unbalanced training sets, in which a class is rare (target = 1 in this case)
+and the other one is more common. 
+This may happen because the algorithm tries to optimize the overall accuracy.
+One way to address this problem can be using an optimization function that takes into consideration the TPR (true positive rate) or the TNR 
+(true negative rate). Infact TPR for class 1 (also called recall) is 0.
+In this specific scenario it can be worth to try to optimize the function according to the TPR, i.e. to correctly predict the observations with 
+target = 1 (rare class). Other methods to deal with unbalanced training sets, for example undersampling, oversampling, set priors. 
+In this project we let the logistic regression function automatically face this problem by setting the parameter "class_weight"
+to "balanced".
+'''
 
 print(skm.classification_report(y_test_1, y_predA))
 
@@ -142,13 +161,13 @@ acc2 = skm.accuracy_score(y_test_1, y_predB, normalize=True, sample_weight=None)
 print("Accuracy: "+str(round(acc2,2)*100)+'%')
 
 
-
-#In this case the accuracy is lower compared to the first model, but this works better if we consider
-#other evaluation metrics, for example recall for class 1 (or true positive rate): 
-#TPR for the first model is 0 (no toxic comment correctly classified), for model2 is
-#0.55. Since our aim is to identify toxic comments, the second model is absolutely better than 
-#the first one. 
-
+'''
+In this case the accuracy is lower compared to the first model, but this works better if we consider
+other evaluation metrics, for example recall for class 1 (or true positive rate): 
+TPR for the first model is 0 (no toxic comment correctly classified), for model2 is
+0.55. Since our aim is to identify toxic comments, the second model is with no doubts better than 
+the first one. 
+'''
 
 
 
