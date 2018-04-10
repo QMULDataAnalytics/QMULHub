@@ -10,7 +10,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 
 # In[13]:
 
-
+#Defining a Custom Vectorizer for Sklearn framework using TfidfVectorizer as Underlying engine and our preProcess method
 class CustomVectorizer(TfidfVectorizer):
     def build_tokenizer(self):
         tokenize = super(CustomVectorizer, self).build_tokenizer()
@@ -21,7 +21,7 @@ class CustomVectorizer(TfidfVectorizer):
 
 
 def getBoWTfidfVectors(text_ary):
-    preProcessedTrDF= preprocess_new.prepareTrainTestSet('train.csv','test.csv','bow',seperateLabelInfo=1,sampleNum=100,tokenize=0)
+    preProcessedTrDF= preprocess_new.prepareTrainTestSet('train.csv','test.csv','bow',seperateLabelInfo=1,tokenize=0)
     boWTfidfVectorizer = CustomVectorizer()
     vectors = boWTfidfVectorizer.fit_transform(preProcessedTrDF['comment_text'])
     return vectors
