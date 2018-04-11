@@ -71,6 +71,7 @@ def preProcess(text):
 
 # Input : trainCsvPath, testCsvPath and the name of the Vectorization Method such as ("bow","glove","word2vec"), seperate Label info if 1, num of Samples to process
 # Output: the train(with label) and test dataset in internal representation
+from tqdm import tqdm
 def prepareTrainTestSet(trainCsvPath,testCsvPath,vectorizationMethod,seperateLabelInfo=0,sampleNum=0,tokenize=1):
     #Load Data
     global trainDF,testDF
@@ -83,7 +84,7 @@ def prepareTrainTestSet(trainCsvPath,testCsvPath,vectorizationMethod,seperateLab
     #preProcess the train Dataset
     def iterateDF(df):
         numElements = len(df)
-        for i in range(0,numElements):
+        for i in tqdm(range(0,numElements)):
             df.iloc[i,df.columns.get_loc('comment_text')]=preProcess(df.iloc[i,df.columns.get_loc('comment_text')])
         return df
     if(tokenize==1):
